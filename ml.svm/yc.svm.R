@@ -64,6 +64,12 @@ cat('Imported dataset =',nrow(df),'rows',
 #-----
 # SVM
 #-----
+
+# Ref: H2O has not implemented SVM. However Sparkling Water exposes
+#      Spark's SVM implementation. (http://spark.apache.org/docs/latest/mllib-linear-methods.html#linear-support-vector-machines-svms).
+
 if (!require('e1071')) install.packages('e1071'); library(e1071)
 
-svm.model <- svm(train.data$~., )
+svm.model <- svm(train.data$Class~., train.data, cross=5)
+
+summary(svm.model)
