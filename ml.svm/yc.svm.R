@@ -12,7 +12,7 @@
 # Dataset
 #---------
 df <- read.csv( mydataset <- './dataset/creditcard.csv' )
-
+str(df)
 #-------------
 # Missingness
 #-------------
@@ -36,7 +36,8 @@ if( any(is.na(df)) ){
 #----------------
 # Splitting data
 #----------------
-#df <- df[1:1000,]
+#
+df <- df[1:1000,]
 
 if (!require('dplyr')) install.packages('dplyr'); library(dplyr)
 set.seed(0-0)
@@ -73,3 +74,9 @@ if (!require('e1071')) install.packages('e1071'); library(e1071)
 svm.model <- svm(train.data$Class~., train.data, cross=5)
 
 summary(svm.model)
+plot(svm.model,train.data)
+
+pred <- predict(svm.model, subset(test.data, select=-Class))
+
+table(pred, test.data$Class)
+
