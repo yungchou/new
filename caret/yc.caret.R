@@ -29,7 +29,7 @@ if (!require('ggplot2')) install.packages('ggplot2'); library(ggplot2)
 if (!require('SuperLearner')) install.packages('SuperLearner'); library(SuperLearner)
 if (!require('ranger' )) install.packages('ranger' ); library(ranger )
 if (!require('xgboost')) install.packages('xgboost'); library(xgboost)
-if (!require('caret'  )) install.packages('caret'  ); library(caret  )
+if (!require('caret'  )) install.packages('caret', dependencies=c("Depends","Suggests") ); library(caret  )
 
 if(run.all){  # OPTIONAL
 
