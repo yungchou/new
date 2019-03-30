@@ -28,9 +28,15 @@ missingness <- function(df, logging=FALSE){
 }
 
 
-splitting <- function(df, trian.portion=0.7, loggin=FALSE){
+splitting <- function(df, training=0.6, testing=0.2, holding=0.2, logging=FALSE){
 
   if (logging) cat('\nEntering the function, splitting')
+
+if( (training+testing+holding)!=1 ){
+  training = 0.6 ; testgin = 0.2 ; holding = 0.2
+  cat('Sum of training, testing and holding portions not equal to 1,\n',
+      'Using training = 0.6, testgin = 0.2, and holding = 0.2, instead.')
+}
 
 #----------------
 # Splitting data
@@ -39,26 +45,26 @@ splitting <- function(df, trian.portion=0.7, loggin=FALSE){
 if (!require('dplyr')) install.packages('dplyr'); library(dplyr)
 set.seed(0-0)
 
-# Rows excluded fomr the imported dataset and reserved for 
-# later scoring the model with predictions
-hold.data <- sample_frac( df, 1-train.portion )
+hold.data <- sample_frac( df, holding )
 
-# Spliting the rest for 80% training and 20% testing
+# Excluding the hold data from the imported dataset
 temp <- setdiff(df, hold.data)
+
 part <- sample(2 , nrow(temp) ,replace=TRUE ,prob=c(
-  0.8, # train data
-  0.2  # test data
+  training/(training+testing),
+  testing/(training+testing)
   ))
 
-train.data <- temp[part==1,]  # original training data
+train.data <- temp[part==1,]
 test.data  <- temp[part==2,]
 
 cat('\nImported dataset =',nrow(df),'rows',
-    '\nSplit =',info['split'],
-    '\nTrain data  =',nrow(train.data),
-    '\nTest data   =',nrow(test.data),
-    '\nHold data   =',nrow(hold.data))
+    '\nTrain portion (',training,') =',nrow(train.data),
+    '\nTest  portion (',testing ,') =',nrow(test.data),
+    '\nHold  portion (',holding ,') =',nrow(hold.data))
 
   if (logging) cat('\nLeaving the function, splitting')
+
+return (train.data, test.data, hold.data)
 
 }
