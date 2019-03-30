@@ -33,9 +33,10 @@ splitting <- function(df, training=0.6, testing=0.2, holding=0.2, logging=FALSE)
   if (logging) cat('\nEntering the function, splitting')
 
 if( (training+testing+holding)!=1 ){
-  training = 0.6 ; testgin = 0.2 ; holding = 0.2
-  cat('Sum of training, testing and holding portions not equal to 1,\n',
-      'Using training = 0.6, testgin = 0.2, and holding = 0.2, instead.')
+  cat('\nSpecified portions:','\nTraining(',training, ') + Testing(',testing, ') + Holding(', holding, ') =',
+ training+testing+holding,
+'\nDO NOT SUM UP TO 1!', '\nUsing training = 0.6, testgin = 0.2, and holding = 0.2, instead.\n')
+  training = 0.6 ; testing = 0.2 ; holding = 0.2
 }
 
 #----------------
@@ -43,6 +44,7 @@ if( (training+testing+holding)!=1 ){
 #----------------
 
 if (!require('dplyr')) install.packages('dplyr'); library(dplyr)
+
 set.seed(0-0)
 
 hold.data <- sample_frac( df, holding )
@@ -65,6 +67,6 @@ cat('\nImported dataset =',nrow(df),'rows',
 
   if (logging) cat('\nLeaving the function, splitting')
 
-return (train.data, test.data, hold.data)
+return ( res <- list('train'=train.data, 'test'=test.data, 'hold'=hold.data) )
 
 }
