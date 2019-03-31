@@ -3,7 +3,8 @@ if (!require('GGally')) install.packages('GGally'); library(GGally)
 if (!require('plotly')) install.packages('plotly'); library(plotly)
 if (!require('dplyr')) install.packages('dplyr'); library(dplyr)
 
-df <- read.csv( mydataset <- './dataset/creditcard.csv' )
+system.time(df1 <- data.table::fread( mydataset <- './dataset/creditcard.csv' ))
+
 str(df)
 ggcorr(df[1:100,2:8], palette = "RdBu", label = TRUE)
 ggplotly(ggpairs(df[1:100,2:8]))
