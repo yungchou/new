@@ -1,3 +1,31 @@
+# CARET MODELS
+#if (!require('caret')) install.packages('caret'); library(caret)
+#names(getModelInfo())
+
+# GET DATASET FROM URL
+# e.g. http://archive.ics.uci.edu/ml/datasets/Adult
+system.time(
+  census1994 <- data.table::fread(
+    RCurl::getURL(
+     "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+    ,ssl.verifypeer=FALSE
+    )
+  )
+); head(census1994,2)
+
+# RENAME COLUMNS
+names(census1994) <- c(
+   'age','workclass','fnlwgt','education','education-num'
+  ,'marital-status','occupation','relationship','race','sex'
+  ,'capitatal-ain','capital-loss','hours-per-week','native-country','income'
+);head(census1994,2);str(census1994)
+
+census1994$income <- ifelse(census1994$income=='<=50K',0,1)
+str(census1994)
+dmy <- caret::dummyVars('~.',census1994) # Dummify all factor variables
+
+
+
 missingness <- function(df, logging=FALSE){
 
   if (logging) cat('\nEntering the function, missingness\n')
