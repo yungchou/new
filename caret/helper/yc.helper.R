@@ -22,6 +22,8 @@ names(census1994) <- c(
 
 census1994$income <- ifelse(census1994$income=='<=50K',0,1)
 str(census1994)
+
+# DUMMIFICATION
 dmy <- caret::dummyVars('~.',census1994) # Dummify all factor variables
 
 
